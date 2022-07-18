@@ -78,7 +78,7 @@ public class ContactsStepDefs {
 
     @Then("the information should be same with database")
     public void the_information_should_be_same_with_database() {
-     BrowserUtils.waitFor(4);
+     BrowserUtils.waitFor(5);
      //get the information from UI
         ContactInfoPage contactInfoPage = new ContactInfoPage();
         String actualFullname = contactInfoPage.contactFullName.getText();
@@ -95,7 +95,7 @@ public class ContactsStepDefs {
                 "where e.email='turgutilker@yahoo.com'";
 
         //create the connection to qa3 env
-        DBUtils.createConnection();
+        // DBUtils.createConnection();
         //get the data in java collections
         Map<String, Object> rowMap = DBUtils.getRowMap(query);
         String expectedFullname = (String) rowMap.get("full_name");
@@ -103,8 +103,8 @@ public class ContactsStepDefs {
 
         System.out.println("expectedFullname = " + expectedFullname);
         System.out.println("expectedEmail = " + expectedEmail);
-        //close connection
-         DBUtils.destroy();
+        //close connection hook a ekledim after metot olarak o yuzden burdan sildim
+        // DBUtils.destroy();
 
         //assertion, compare UI vs DATABASE information
         Assert.assertEquals(expectedFullname,actualFullname);
@@ -125,10 +125,11 @@ public class ContactsStepDefs {
 
 
         //get information from database
-        String query= "select concat(first_name,' ',last_name) \"full_name\", e.email \n" +
-                "from orocrm_contact c inner join orocrm_contact_email e \n" +
-                "on c.id = e.owner_id \n" +
-                "where e.email = '"+email+"'";
+        String query= "select concat(first_name,' ',last_name) 'full_name', e.email \n" +
+                "from orocrm_contact c inner join orocrm_contact_email e\n" +
+                "on c.id= e.owner_id\n" +
+                "where e.email='"+email+"'";
+
 
         //create the connection to qa3 env
         // DBUtils.createConnection();
@@ -141,7 +142,7 @@ public class ContactsStepDefs {
         System.out.println("expectedEmail = " + expectedEmail);
         //close connection
         // DBUtils.destroy();
-
+    BrowserUtils.waitFor(3);
         //assertion, compare UI vs DATABASE information
         Assert.assertEquals(expectedFullname,actualFullname);
         Assert.assertEquals(expectedEmail,actualEmail);
